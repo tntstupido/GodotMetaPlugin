@@ -1,0 +1,81 @@
+plugins {
+	id "com.android.library"
+	id "org.jetbrains.kotlin.android"
+}
+
+def pluginName = "MetaInstallPlugin"
+def pluginPackageName = "com.mladenstojanovic.metainstallplugin"
+def godotVersion = "4.5.1.stable"
+def metaSdkVersion = "18.0.3"
+
+android {
+	namespace pluginPackageName
+	compileSdk 35
+
+	defaultConfig {
+		minSdk 24
+		consumerProguardFiles "consumer-rules.pro"
+	}
+
+	buildTypes {
+		debug {
+			buildConfigField "boolean", "META_DEBUG_LOGGING", "true"
+		}
+		release {
+			minifyEnabled false
+			buildConfigField "boolean", "META_DEBUG_LOGGING", "false"
+		}
+	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_17
+		targetCompatibility JavaVersion.VERSION_17
+	}
+
+	kotlinOptions {
+		jvmTarget = "17"
+	}
+
+	buildFeatures {
+		buildConfig true
+	}
+
+	lint {
+		abortOnError false
+	}
+
+	publishing {
+		singleVariant("release")
+	}
+}
+
+configurations.configureEach {
+	resolutionStrategy {
+		force "com.facebook.android:facebook-core:${metaSdkVersion}"
+	}
+}
+
+dependencies {
+	compileOnly "org.godotengine:godot:${godotVersion}"
+	implementation "com.facebook.android:facebook-core:${metaSdkVersion}"
+}
+
+def addonOutputDir = file("${rootDir}/../addons/meta_install_plugin")
+
+tasks.register("syncAddonArtifacts", Copy) {
+	dependsOn("assembleDebug", "assembleRelease")
+	from(layout.buildDirectory.dir("outputs/aar")) {
+		include("plugin-debug.aar")
+		include("plugin-release.aar")
+		rename { file_name ->
+			file_name
+				.replace("plugin-debug.aar", "${pluginName}-debug.aar")
+				.replace("plugin-release.aar", "${pluginName}-release.aar")
+		}
+	}
+	into(addonOutputDir)
+}
+
+tasks.named("assemble").configure {
+	finalizedBy("syncAddonArtifacts")
+}
