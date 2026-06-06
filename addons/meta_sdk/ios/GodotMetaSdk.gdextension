@@ -1,0 +1,17 @@
+[configuration]
+
+entry_symbol = "godot_meta_sdk_library_init"
+compatibility_minimum = "4.5"
+reloadable = false
+
+[libraries]
+
+ios.debug = "res://addons/meta_sdk/ios/bin/libgodot_meta_sdk.ios.template_debug.framework"
+ios.release = "res://addons/meta_sdk/ios/bin/libgodot_meta_sdk.ios.template_release.framework"
+
+[dependencies]
+ios.debug = { }
+ios.release = { }
+
+[icons]
+GodotMetaSdk = "res://addons/meta_sdk/icons/godot_meta_sdk.svg"

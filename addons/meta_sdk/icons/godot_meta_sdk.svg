@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1877F2"/>
+      <stop offset="1" stop-color="#0E5FC2"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="24" fill="url(#g)"/>
+  <g fill="#FFFFFF" font-family="Helvetica, Arial, sans-serif" font-weight="bold" text-anchor="middle">
+    <text x="64" y="60" font-size="22">Meta</text>
+    <text x="64" y="86" font-size="14" opacity="0.85">SDK</text>
+  </g>
+  <text x="64" y="112" fill="#FFFFFF" font-size="10" text-anchor="middle" opacity="0.6">Godot 4.5</text>
+</svg>

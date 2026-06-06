@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+# SConstruct
+#
+# Top-level SCons file for the iOS GDExtension. Detects whether
+# `godot-cpp` lives next to this directory and falls back to using it
+# from CocoaPods (see Podfile) when it does not.
+#
+# Typical use:
+#
+#   cd GodotMetaPlugin/addons/meta_sdk/ios
+#   scons platform=ios arch=arm64 target=template_release
+#
+# Output:
+#   bin/libgodot_meta_sdk.ios.template_release.framework/
+
+import os
+
+env = Environment(tools=["default", "c++", "objc"])
+
+# SCons default values when invoked without an explicit Platform.
+# We force iOS here because the plugin is iOS-only.
+env["PLATFORM"] = "ios"
+
+# Make the SCsub see the SCons API.
+SConscript("SCsub")

@@ -1,0 +1,60 @@
+#!/usr/bin/env python
+# SCsub
+#
+# SCons build script for the iOS-only GDExtension.
+# Run from the GodotMetaPlugin root via:
+#
+#   scons platform=ios arch=arm64 target=template_release
+#   scons platform=ios arch=arm64 target=template_debug
+#   scons platform=ios arch=x86_64 target=template_release
+#   scons platform=ios arch=x86_64 target=template_debug
+
+import os
+import sys
+
+env = SConscript("godot-cpp/SConstruct")
+
+env.Append(CPPPATH=["."])
+env.Append(CXXFLAGS=["-std=c++17", "-fobjc-arc"])
+env.Append(CCFLAGS=["-fobjc-arc"])
+
+# Source files.
+sources = Glob("*.mm") + Glob("*.cpp")
+
+# Output framework
+lib_name = "libgodot_meta_sdk"
+framework_dir = "bin/{}.{}.{}.framework".format(
+    lib_name,
+    env["platform"],
+    env["target"],
+)
+env.Execute(Mkdir(framework_dir))
+
+# Build the framework's binary.
+lib = env.SharedLibrary(
+    target=os.path.join(framework_dir, lib_name),
+    source=sources,
+    LIBS=[
+        "Foundation",
+        "UIKit",
+        "Security",
+        "SafariServices",
+        "WebKit",
+        "StoreKit",
+        "AdServices",
+        "AppTrackingTransparency",
+        "SystemConfiguration",
+        "CoreGraphics",
+    ],
+)
+
+# Build a minimal Info.plist so the framework is usable.
+infoplist = env.Substfile(
+    target=os.path.join(framework_dir, "Info.plist"),
+    source="Info.plist.in",
+    SUBST_DICT={
+        "@FRAMEWORK_NAME@": lib_name,
+    },
+)
+
+env.InstallVersionedLib(framework_dir, lib)

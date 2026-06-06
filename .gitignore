@@ -1,0 +1,51 @@
+# Build artifacts
+addons/meta_sdk/ios/bin/
+addons/meta_sdk/ios/build/
+addons/meta_sdk/ios/.sconsign.dblite
+
+# Xcode / CocoaPods
+*.xcodeproj
+*.xcworkspace
+Pods/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+build/
+
+# iOS native build output (rebuild from source on other machines)
+ios/native/MetaInstallPlugin/build/
+
+# FBSDK xcframework internals — keep the top-level slices only
+ios/plugins/meta_install_plugin/FBSDKCoreKit.xcframework/*-x86_64-*
+ios/plugins/meta_install_plugin/FBSDKCoreKit.xcframework/ios-arm64_x86_64-*
+ios/plugins/meta_install_plugin/FBSDKCoreKit.xcframework/*/dSYMs/
+ios/plugins/meta_install_plugin/FBSDKCoreKit.xcframework/*/FBSDKCoreKit.framework.dSYM/
+ios/plugins/meta_install_plugin/FBSDKCoreKit_Basics.xcframework/*-x86_64-*
+ios/plugins/meta_install_plugin/FBSDKCoreKit_Basics.xcframework/*-maccatalyst/*
+ios/plugins/meta_install_plugin/FBSDKCoreKit_Basics.xcframework/*/dSYMs/
+ios/plugins/meta_install_plugin/FBAEMKit.xcframework/*-x86_64-*
+ios/plugins/meta_install_plugin/FBAEMKit.xcframework/*-maccatalyst/*
+ios/plugins/meta_install_plugin/FBAEMKit.xcframework/*/dSYMs/
+ios/plugins/meta_install_plugin/FBAEMKit.xcframework/*/*/*.dSYM/
+
+# MetaInstallPlugin xcframework internals — rebuild from source
+ios/plugins/meta_install_plugin/MetaInstallPlugin.debug.xcframework/
+ios/plugins/meta_install_plugin/MetaInstallPlugin.release.xcframework/
+
+# Godot
+.godot/
+.import/
+export.cfg
+export_presets.cfg/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# OS
+Thumbs.db
+
+# Local config (not shared across machines)
+*.gdip
