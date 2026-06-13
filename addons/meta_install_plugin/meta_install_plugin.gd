@@ -2,7 +2,7 @@
 extends EditorPlugin
 
 const PLUGIN_NAME := "MetaInstallPlugin"
-const META_SDK_VERSION := "18.0.3"
+const META_SDK_VERSION := "18.2.3"
 const DEFAULT_DISPLAY_NAME := "Die Laughing"
 
 var export_plugin: MetaInstallExportPlugin

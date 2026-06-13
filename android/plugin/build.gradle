@@ -6,7 +6,7 @@ plugins {
 def pluginName = "MetaInstallPlugin"
 def pluginPackageName = "com.mladenstojanovic.metainstallplugin"
 def godotVersion = "4.5.1.stable"
-def metaSdkVersion = "18.0.3"
+def metaSdkVersion = "18.2.3"
 
 android {
 	namespace pluginPackageName
