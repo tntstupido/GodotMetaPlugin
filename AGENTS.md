@@ -5,7 +5,9 @@ Godot 4.5.1 iOS plugin providing Meta (Facebook) install-attribution via a nativ
 ## Setup commands
 
 - Install deps: `cd ios/pods && pod install`
-- Build xcframework: `GODOT_HEADERS_DIR=/path/to/godot-4.5.1 FBSDK_CORE_XCFRAMEWORK="$PWD/ios/plugins/meta_install_plugin/FBSDKCoreKit.xcframework" FBSDK_BASICS_XCFRAMEWORK="$PWD/ios/plugins/meta_install_plugin/FBSDKCoreKit_Basics.xcframework" FBAEMKIT_XCFRAMEWORK="$PWD/ios/plugins/meta_install_plugin/FBAEMKit.xcframework" ios/native/MetaInstallPlugin/scripts/build_xcframework.sh`
+- Refresh signed vendor frameworks: `ios/native/MetaInstallPlugin/scripts/refresh_vendor_frameworks.sh`
+- Build xcframework: `GODOT_HEADERS_DIR=/path/to/godot-4.5.1 ios/native/MetaInstallPlugin/scripts/build_xcframework.sh`
+- Create the per-game export plugin config: `cp ios/plugins/meta_install_plugin/meta_install_plugin.gdip.template ios/plugins/meta_install_plugin/meta_install_plugin.gdip` and fill in `FacebookAppID`, `FacebookClientToken`, `FacebookDisplayName` (the `.gdip` itself is gitignored — local config per machine)
 - Test GDScript: open in Godot 4.5.1 editor and run the demo scene (`examples/demo.tscn`)
 - Lint GDScript: no automated linter — review manually; prefer typed GDScript (`@tool`, `@export`, typed variables)
 - No automated test suite — see Testing instructions
@@ -13,11 +15,18 @@ Godot 4.5.1 iOS plugin providing Meta (Facebook) install-attribution via a nativ
 ## Project layout
 
 - `addons/meta_sdk/` — Godot plugin GDScript + iOS Objective-C++ source (legacy prototype; do not modify for current production path)
-- `ios/plugins/meta_install_plugin/` — distribution payload: pre-built xcframeworks + bundled Meta SDK xcframeworks
-- `ios/native/MetaInstallPlugin/` — native source for the Godot iOS plugin bridge (Objective-C++ / C)
+- `addons/meta_install_plugin/` — production plugin: GDScript autoload helper (`meta_install_tracker.gd`) + Android AAR + plugin config
+- `ios/plugins/meta_install_plugin/` — distribution payload: pre-built xcframeworks + bundled Meta SDK xcframeworks refreshed from CocoaPods + per-game `.gdip` (gitignored) and `.gdip.template`
+- `ios/native/MetaInstallPlugin/` — native source for the Godot iOS plugin bridge (Objective-C++ / C) + build/refresh scripts
 - `ios/pods/` — CocoaPods working directory (FBSDKCoreKit, FBAEMKit, FBSDKCoreKit_Basics)
 - `examples/` — demo scene and script for runtime integration
 - `docs/` — integration guides, API reference, and troubleshooting
+
+## Platform support
+
+- iOS minimum: 14.0 (matches `Podfile` and `xcrun -miphoneos-version-min`)
+- Simulator slices: arm64 only (Apple Silicon). Intel Macs are not supported for in-simulator testing — use a real device or an Apple Silicon host. The `.gitignore` rules intentionally drop any `*-x86_64-*` slice so x86_64 binaries never end up in the distribution payload.
+- Apple code-signing artifacts (`_CodeSignature/`) are stripped on `refresh_vendor_frameworks.sh` and ignored by git — they are local-machine stamps added by `codesign` and are not portable across developers.
 
 ## Code style
 

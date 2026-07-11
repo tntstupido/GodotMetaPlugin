@@ -27,6 +27,10 @@ Error MetaInstallPlugin::initialize(const String &app_id, const String &client_t
 		ERR_PRINT("[MetaInstallPlugin] Meta App ID is empty.");
 		return ERR_INVALID_PARAMETER;
 	}
+	if (client_token.is_empty()) {
+		ERR_PRINT("[MetaInstallPlugin] Meta Client Token is empty.");
+		return ERR_INVALID_PARAMETER;
+	}
 
 	FBSDKSettings.sharedSettings.appID = [NSString stringWithUTF8String:app_id.utf8().get_data()];
 	FBSDKSettings.sharedSettings.clientToken = [NSString stringWithUTF8String:client_token.utf8().get_data()];

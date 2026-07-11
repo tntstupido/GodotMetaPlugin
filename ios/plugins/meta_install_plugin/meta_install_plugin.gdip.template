@@ -1,0 +1,37 @@
+[config]
+name="MetaInstallPlugin"
+binary="MetaInstallPlugin.xcframework"
+use_swift_runtime=true
+initialization="init_meta_install_plugin"
+deinitialization="deinit_meta_install_plugin"
+
+[dependencies]
+linked=[]
+embedded=[
+	"FBAEMKit.xcframework",
+	"FBSDKCoreKit.xcframework",
+	"FBSDKCoreKit_Basics.xcframework"
+]
+system=[
+	"AdSupport.framework",
+	"AppTrackingTransparency.framework",
+	"AuthenticationServices.framework",
+	"Foundation.framework",
+	"SafariServices.framework",
+	"Security.framework",
+	"StoreKit.framework",
+	"SystemConfiguration.framework",
+	"UIKit.framework"
+]
+files=[]
+linker_flags=[
+	"-ObjC"
+]
+
+[plist]
+FacebookAppID:string_input=""
+FacebookClientToken:string_input=""
+FacebookDisplayName:string_input=""
+FacebookAutoLogAppEventsEnabled:boolean=true
+FacebookAdvertiserIDCollectionEnabled:boolean=true
+NSUserTrackingUsageDescription:string_input="This identifier will be used to measure advertising performance, including install attribution."

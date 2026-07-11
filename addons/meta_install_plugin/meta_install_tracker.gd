@@ -33,6 +33,8 @@ extends Node
 ## if MetaInstallTracker.is_initialized():
 ##     MetaInstallTracker.flush()
 ## var sdk_version: String = MetaInstallTracker.get_sdk_version()
+## # After triggering the ATT prompt, push the new auth state into the SDK:
+## var tracking: bool = MetaInstallTracker.sync_advertiser_tracking_enabled()
 ## [/codeblock]
 
 signal initialization_completed(success: bool, error_code: int, message: String)
@@ -115,6 +117,16 @@ func is_initialized() -> bool:
 func flush() -> void:
 	if _plugin != null and _plugin.has_method("flush"):
 		_plugin.call("flush")
+
+
+## Re-sync the native SDK's advertiser-tracking flag with the current
+## ATT authorization status. Call this after requesting ATT authorization,
+## because the prompt result is not always available when initialize() runs.
+## Returns the current tracking-enabled state, or false if not initialized.
+func sync_advertiser_tracking_enabled() -> bool:
+	if _plugin != null and _plugin.has_method("sync_advertiser_tracking_enabled"):
+		return bool(_plugin.call("sync_advertiser_tracking_enabled"))
+	return false
 
 
 ## Returns the Meta SDK version string, or empty if not available.

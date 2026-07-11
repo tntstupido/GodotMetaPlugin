@@ -28,6 +28,9 @@ ios/plugins/meta_install_plugin/FBAEMKit.xcframework/*-maccatalyst/*
 ios/plugins/meta_install_plugin/FBAEMKit.xcframework/*/dSYMs/
 ios/plugins/meta_install_plugin/FBAEMKit.xcframework/*/*/*.dSYM/
 
+# Apple code-signing artifacts — machine-specific, never share across devs
+**/_CodeSignature/
+
 # MetaInstallPlugin xcframework internals — rebuild from source
 ios/plugins/meta_install_plugin/MetaInstallPlugin.debug.xcframework/
 ios/plugins/meta_install_plugin/MetaInstallPlugin.release.xcframework/
