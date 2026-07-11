@@ -7,6 +7,10 @@ Godot 4.5.1 iOS plugin providing Meta (Facebook) install-attribution via a nativ
 - Install deps: `cd ios/pods && pod install`
 - Refresh signed vendor frameworks: `ios/native/MetaInstallPlugin/scripts/refresh_vendor_frameworks.sh`
 - Build xcframework: `GODOT_HEADERS_DIR=/path/to/godot-4.5.1 ios/native/MetaInstallPlugin/scripts/build_xcframework.sh`
+  - `GODOT_HEADERS_DIR` must point at a **Godot source tree** (with `core/object/class_db.h` etc.), **not** the editor app at `/Applications/Godot.app`
+  - On this machine, `/Users/mladen/Documents/Plugins/GodotAdMobPlugin/third_party/godot-4.5.1-stable` is a known good checkout
+  - Always run from the main checkout root — `.worktrees/...` worktrees don't have `ios/pods/Pods` populated, so the build will fail to find FBSDK xcframeworks unless you override `FBSDK_CORE_XCFRAMEWORK` / `FBSDK_BASICS_XCFRAMEWORK` / `FBAEMKIT_XCFRAMEWORK` to point at the main checkout's pods
+  - **Full workflow, output paths, verification, and troubleshooting** in `docs/BUILDING.md`
 - Create the per-game export plugin config: `cp ios/plugins/meta_install_plugin/meta_install_plugin.gdip.template ios/plugins/meta_install_plugin/meta_install_plugin.gdip` and fill in `FacebookAppID`, `FacebookClientToken`, `FacebookDisplayName` (the `.gdip` itself is gitignored — local config per machine)
 - Test GDScript: open in Godot 4.5.1 editor and run the demo scene (`examples/demo.tscn`)
 - Lint GDScript: no automated linter — review manually; prefer typed GDScript (`@tool`, `@export`, typed variables)
@@ -20,7 +24,7 @@ Godot 4.5.1 iOS plugin providing Meta (Facebook) install-attribution via a nativ
 - `ios/native/MetaInstallPlugin/` — native source for the Godot iOS plugin bridge (Objective-C++ / C) + build/refresh scripts
 - `ios/pods/` — CocoaPods working directory (FBSDKCoreKit, FBAEMKit, FBSDKCoreKit_Basics)
 - `examples/` — demo scene and script for runtime integration
-- `docs/` — integration guides, API reference, and troubleshooting
+- `docs/` — integration guides, API reference, and troubleshooting. `docs/BUILDING.md` is the canonical iOS rebuild workflow (the legacy `godot-cpp` GDExtension path is no longer supported).
 
 ## Platform support
 
