@@ -26,7 +26,7 @@ Godot 4.5.1 iOS plugin providing Meta (Facebook) install-attribution via a nativ
 
 - iOS minimum: 14.0 (matches `Podfile` and `xcrun -miphoneos-version-min`)
 - Simulator slices: arm64 only (Apple Silicon). Intel Macs are not supported for in-simulator testing — use a real device or an Apple Silicon host. The `.gitignore` rules intentionally drop any `*-x86_64-*` slice so x86_64 binaries never end up in the distribution payload.
-- Apple code-signing artifacts (`_CodeSignature/`) are stripped on `refresh_vendor_frameworks.sh` and ignored by git — they are local-machine stamps added by `codesign` and are not portable across developers.
+- Vendor xcframework integrity: the bundled Meta SDK xcframeworks under `ios/plugins/meta_install_plugin/` are bit-for-bit copies of what `pod install` produces, including `_CodeSignature/`. The Godot iOS exporter and the App Store validation pipeline both rely on the code-signing and resource envelope being intact — `refresh_vendor_frameworks.sh` deliberately does NOT strip `_CodeSignature/`. The `.gitignore` ignores `_CodeSignature/` directories so the working tree stays clean without modifying the shipped xcframework payloads.
 
 ## Code style
 
